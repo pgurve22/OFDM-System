@@ -21,3 +21,8 @@
 - Simulation :
   
 ![MIMO_OFDM_BER](MIMO_OFDM_BER.png)
+
+
+## MU-MIMO-OFDM Downlink System
+
+- Problem Stetement
