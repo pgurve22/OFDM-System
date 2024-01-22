@@ -25,16 +25,22 @@
 
 ## MU-MIMO-OFDM Downlink System
 
-- Simulation : 
+- Problem Statement : Simulate a MU-MIMO-OFDM wireless system in MATLAB with M = 32 subcarriers for a channel with 𝐿 = 5 i.i.d. Rayleigh fading unit gain channel taps and Pedestrian-A channel with gain [0 −9.7 −19.2 −22.8], N_t = 64 BS Antennas and K = 4 Single Antenna Users. Generate the both Uplink and Downlink sum rate for QAM symbols loaded over all the subcarriers and compared it for MRC,ZF,MMSE.
+ 
+- Simulation : Rayleigh Fading Channel 
 
 ![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_Ray.png)
+
+- Simulation : Pedestrian-A Channel 
 
 ![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_PedA.png)
 
 ## MU-MIMO-OFDM Uplink System
 
-- Simulation : 
+- Simulation : Rayleigh Fading Channel 
 
 ![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_Ray.png)
+
+- Simulation : Pedestrian-A Channel 
 
 ![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA.png)
