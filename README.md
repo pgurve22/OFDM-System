@@ -25,4 +25,16 @@
 
 ## MU-MIMO-OFDM Downlink System
 
-- Problem Stetement
+- Simulation : 
+
+![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_Ray.png)
+
+![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_PedA.png)
+
+## MU-MIMO-OFDM Uplink System
+
+- Simulation : 
+
+![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_Ray.png)
+
+![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA.png)
