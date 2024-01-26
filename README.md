@@ -1,6 +1,6 @@
 # OFDM-System
 
-## SISO-OFDM System
+## Single-Input-Single-Output OFDM System
 
 
 ![ofdm_blk](ofdm_blk.png)
@@ -10,10 +10,12 @@
   
 - Simulation :
   
+
 ![SISO_OFDM_BER](SISO_OFDM_BER.png)
 
 
-## SIMO-OFDM System
+## Single-Input-Multi-Output OFDM System
+
 - Problem Statement : Extend the above simulation to a SIMO OFDM system with 𝑅 = 2 receive antennas and similarly plot the BER curves obtained via both simulation and analysis. Submit the code and relevant plots for both the problems above.
  
 - Simulation :
@@ -21,7 +23,7 @@
 ![SIMO_OFDM_BER](SIMO_OFDM_BER.png)
 
 
-## MIMO-OFDM System
+## Multi-Input-Multi-Output OFDM System
 
 ### Transmitter 
 
@@ -48,18 +50,25 @@
  
 - Simulation : Rayleigh Fading Channel 
 
+
 ![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_Ray.png)
+
 
 - Simulation : Pedestrian-A Channel 
 
+
 ![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_PedA.png)
+
 
 ## MU-MIMO-OFDM Uplink System
 
 - Simulation : Rayleigh Fading Channel 
 
+
 ![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_Ray.png)
 
+
 - Simulation : Pedestrian-A Channel 
+
 
 ![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA.png)
