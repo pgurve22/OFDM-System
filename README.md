@@ -4,10 +4,10 @@
 
 
 ![mcm_tx](mcm_tx.png)
-
+fig: Multicarrier Modulation Transmitter 
 
 ![mcm_rx](mcm_rx.png)
-
+fig: Multicarrier Modulation Recevier 
 
 ![ofdm_blk](ofdm_blk.png)
 
