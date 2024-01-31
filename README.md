@@ -3,11 +3,21 @@
 ## Single-Input-Single-Output OFDM System
 
 
-![mcm_tx](mcm_tx.png)
-fig: Multicarrier Modulation Transmitter 
+Total number of sub-carriers is $M$ Hence total number of information symbols is also $M$.
 
-![mcm_rx](mcm_rx.png)
-fig: Multicarrier Modulation Recevier 
+
+$$X(0) , X(1) , X(2) , , , , , , , X(m-1) , X(m) , X(m+1) , , , , , , , X(M-1)$$
+
+
+So basically $u$-th IFFT coefficient of the information symbols $X(0) , X(1) , X(2) , , , , ,  , , , , , , , X(M-1)$ is given by-
+
+
+```math
+    x(u) = \underbrace{\sum_{i} X(i) e^{2\pi\frac{iu}{M}}}_{IFFT}
+```
+
+Similarly $x(0),x(1),,,,,,x(M)$ are the IFFT coefficient at the $0,1,,,,M$ time points respectively. 
+
 
 ![ofdm_blk](ofdm_blk.png)
 
