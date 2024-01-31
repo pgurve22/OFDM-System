@@ -3,6 +3,12 @@
 ## Single-Input-Single-Output OFDM System
 
 
+![mcm_tx](mcm_tx.png)
+
+
+![mcm_rx](mcm_rx.png)
+
+
 ![ofdm_blk](ofdm_blk.png)
 
 
