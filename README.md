@@ -9,14 +9,14 @@ Total number of sub-carriers is $M$. Hence total number of information symbols i
 $$X(0) , X(1) , X(2) ,\space.\space .\space .\space.\space ,X(M-1)$$
 
 
-So basically $u$-th IFFT coefficient of the information symbols $X(0) , X(1) , X(2) ,\space.\space .\space .\space.\space, X(M-1)$ is given by-
+So basically $u$-th IFFT coefficient of the information symbols $X(0) , X(1) , X(2) ,\space.\space .\space .\space.\space, X(M-1)$ is given as-
 
 
 ```math
     x(u) = \underbrace{\sum_{i} X(i) e^{2\pi\frac{iu}{M}}}_{IFFT}
 ```
 
-Similarly $x(0),x(1),\space.\space .\space .\space.\space,x(M)$ are the IFFT coefficient at the $0,1,\space.\space .\space .\space.\space,M$ time points respectively. Our serial signal is given as given below:
+Similarly $x(0),x(1),\space.\space .\space .\space.\space,x(M)$ are the IFFT coefficient at the $0,1,\space.\space .\space .\space.\space,M$ time points respectively. Our serial signal is given as-
 
 
 ```math
@@ -24,7 +24,7 @@ Similarly $x(0),x(1),\space.\space .\space .\space.\space,x(M)$ are the IFFT coe
 ```
 
 
-- Cynclic Prefix in OFDM -
+- Cyclic Prefix in OFDM -
 
 Consider a frequency-selective channel modelled with channel taps $h(0),h(1),\space.\space .\space .\space.\space,h(L_h-1)$. Thus, the received symbol $y$ at a given time instant $n$ can be
 expressed as  
