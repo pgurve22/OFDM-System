@@ -195,6 +195,56 @@ Also, one can employ the MMSE detector as
 
 
 
+- BER Calculation:
+
+
+Consider the OFDM subcarrier system model given as - 
+
+
+
+```math
+    Y (k) \space = \space H (k) \space X (k) \space + \space N (k)
+```
+
+
+
+where $N (k)$ is the subcarrier noise obtained from the FFT of the noise samples at the output of the receiver as - 
+
+
+
+```math
+    N(k) = \sum_{i}n(i)e^{-2\pi\frac{k\space i}{M}} 
+```
+
+
+- Mean $\mathbb{E}[N(k)] = \sum_{i}\mathbb{E}[n(i)]e^{-2\pi\frac{k\space i}{M}} = 0$
+
+- Variance $\sigma^{2}_M = \mathbb{E}[|N(k)|^2]$
+
+
+```math
+    \sigma^{2}_M = \sum_{m}\sum_{l}\mathbb{E}[n(m)n^{\ast}(l)]e^{-2\pi\frac{m-l}{M}}
+
+```
+
+
+```math
+    \sigma^{2}_M = \sum_{m}\sigma^{2}_{\eta} = M\sigma^{2}_{\eta}
+```
+
+
+
+Further, let us assume that each of the channel taps $h (0) \space,\space h (1)\space ,\space . \space . \space . \space , \space h (L − 1)$ is Rayleigh fading in nature, i.e., has a complex symmetric Gaussian distribution of mean 0 and variance 1. Therefore, the channel coefficient across the $k$-th subcarrier is given as -
+
+
+
+```math
+    H(k) = \sum_{i}h(i)e^{-2\pi\frac{k\space i}{M}} 
+```
+
+
+
+
 ![ofdm_blk](ofdm_blk.png)
 
 
