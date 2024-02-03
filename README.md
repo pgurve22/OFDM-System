@@ -119,7 +119,79 @@ Therefore, taking the FFT of $y (n)$ at the output, we have
 ```
 
 
+Thus, the frequency-selective fading channel is converted into a group of narrowband flat-fading channels, one channel across each subcarrier. Observe that if a single carrier system was used, and the symbols $X (0) \space , \space X (1) \space , \space . \space . \space . \space , \space X (N − 1)$ were transmitted directly then the received symbol $y (n)$ would be given as
 
+
+
+```math
+    y (n) = h (0) X (n) \space + \space h (1) X (n − 1) \space + \space . \space . \space . \space + \space h (L − 1) X (n − L + 1)
+```
+
+
+Each symbol $X (n)$ would experience inter-symbol interference of $L − 1$ past symbols. Therefore, using this novel scheme of OFDM, we have been able to totally eliminate the inter-symbol interference arising out of the frequency-selective nature of the channel. The set of parallel flat-fading channels can be summarized by the expressions -
+
+
+```math
+    Y (0) = H (0) \space X (0)
+```
+
+
+```math
+    Y (1) = H (1) \space X (1)
+```
+
+
+```math
+    . \space \space \space \space \space \space \space \space \space . \space \space \space \space \space \space \space \space \space .
+```
+
+
+```math
+    . \space \space \space \space \space \space \space \space \space . \space \space \space \space \space \space \space \space \space .
+```
+
+
+
+```math
+    Y (M-1) = H (M-1) \space X (M-1)
+```
+
+
+
+Now, considering the noise at the receiver, the received symbol $Y (k)$ can be expressed as -
+
+
+
+```math
+    Y (k) \space = \space H (k) \space X (k) \space + \space N (k)
+```
+
+
+
+A simple detection scheme for $X (k)$ is to use the zero-forcing detector for the subcarrier as
+
+
+
+```math
+    \hat{X}(k) = \frac{1}{H (k)}\space Y(k) = X(k) \space + \space \underbrace{\frac{N(k)}{H(k)}}_{\tilde{N}(k)}
+
+```
+
+
+Coherent or matched filter detection - 
+
+
+```math
+    H^{\ast}(k) \space Y(k) = |H(k)|^2 \space X(k) \space + \space \underbrace{H^{\ast}(k)\space N(k)}_{N'(k)}
+```
+
+
+Also, one can employ the MMSE detector as
+
+
+```math
+    \hat{X}-{MMSE}(k) = \frac{H^{\ast}(k)}{|H(k)|^2  + \sigma^{2}_{\eta}}Y(k) 
+```
 
 
 
