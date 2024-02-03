@@ -213,7 +213,7 @@ where $N (k)$ is the subcarrier noise obtained from the FFT of the noise samples
 
 
 ```math
-    N(k) = \sum_{i}n(i)e^{-2\pi\frac{k\space i}{M}} 
+    N(k) = \sum_{i}^{M-1}n(i)e^{-2\pi\frac{k\space i}{M}} 
 ```
 
 
@@ -223,13 +223,13 @@ where $N (k)$ is the subcarrier noise obtained from the FFT of the noise samples
 
 
 ```math
-    \sigma^{2}_M = \sum_{m}\sum_{l}\mathbb{E}[n(m)n^{\ast}(l)]e^{-2\pi\frac{m-l}{M}}
+    \sigma^{2}_M = \sum_{m}^{M-1}\sum_{l}^{M-1}\mathbb{E}[n(m)n^{\ast}(l)]e^{-2\pi\frac{m-l}{M}}
 
 ```
 
 
 ```math
-    \sigma^{2}_M = \sum_{m}\sigma^{2}_{\eta} = M\sigma^{2}_{\eta}
+    \sigma^{2}_M = \sum_{m}^{M-1}\sigma^{2}_{\eta} = M\sigma^{2}_{\eta}
 ```
 
 
@@ -239,11 +239,32 @@ Further, let us assume that each of the channel taps $h (0) \space,\space h (1)\
 
 
 ```math
-    H(k) = \sum_{i}h(i)e^{-2\pi\frac{k\space i}{M}} 
+    H(k) = \sum_{i}^{M-1}h(i)e^{-2\pi\frac{k\space i}{M}} 
+```
+
+
+- Mean $\mathbb{E}[H(k)] = \sum_{i}\mathbb{E}[h(i)]e^{-2\pi\frac{k\space i}{M}} = 0$
+
+- Channel Power Gain $\mathbb{E}[|H(k)|^2] = \sum_{i}\mathbb{E}[|h(i)|^2]|e^{-2\pi\frac{k\space i}{M}}|^2 = L$
+
+
+Therefore, the average $SNR$ is given as -
+
+
+
+```math
+    SNR_{aver} = \frac{LP}{M\sigma^{2}_{\eta}} 
 ```
 
 
 
+Hence, the BER is given by the standard expression for that of a Rayleigh fading wireless channel as - 
+
+
+
+```math
+    BER_{OFDM} = \frac{1}{2}( 1 - \sqrt{\frac{\frac{LP}{M\sigma^{2}_{\eta}}}{2+\frac{LP}{M\sigma^{2}_{\eta}}}})
+```
 
 ![ofdm_blk](ofdm_blk.png)
 
