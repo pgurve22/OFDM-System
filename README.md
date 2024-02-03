@@ -35,21 +35,21 @@ expressed as
 ```
 
 
-Consider now two OFDM symbols as follows. Let $x (0)$ , $x (1)$ , . . . . ., $x (N − 1)$ denote the IFFT samples of the modulated symbols $X(0)$ , $X (1)$ , . . . . . , $X (N − 1)$, while $\tilde{x}(0)$ , $\tilde{x}(1)$ , . . . . . , $\tilde{x}(N − 1)$ denote the IFFT samples of the previous modulated symbol block $\tilde{X}(0)$ , $\tilde{X}(1)$ , . . . . . , $\tilde{X}(N − 1)$. Thus, the samples corresponding to these two blocks of OFDM symbols are transmitted sequentially as
+Consider now two OFDM symbols as follows. Let $x (0)$ , $x (1)$ , . . . . ., $x (M − 1)$ denote the IFFT samples of the modulated symbols $X(0)$ , $X (1)$ , . . . . . , $X (M − 1)$, while $\tilde{x}(0)$ , $\tilde{x}(1)$ , . . . . . , $\tilde{x}(M − 1)$ denote the IFFT samples of the previous modulated symbol block $\tilde{X}(0)$ , $\tilde{X}(1)$ , . . . . . , $\tilde{X}(M − 1)$. Thus, the samples corresponding to these two blocks of OFDM symbols are transmitted sequentially as
 
 
 ```math
-    \underbrace{\tilde{x}(0) , \tilde{x}(1) , \space.\space .\space . \space, \tilde{x}(N − 1}_{Previous \space block} \space, \space \underbrace{x (0) , x (1) , \space.\space .\space .\space , x (N − 1)}_{Current \space block}
+    \underbrace{\tilde{x}(0) , \tilde{x}(1) , \space.\space .\space . \space, \tilde{x}(M − 1}_{Previous \space block} \space, \space \underbrace{x (0) , x (1) , \space.\space .\space .\space , x (M − 1)}_{Current \space block}
 ```
 
 
 ```math
-    y(0)=h(0)x(0)+\underbrace{h(1)\tilde{x}(N-1)\space+\space .\space .\space .\space.\space\space+\space h(L_h-1)\tilde{x}(N-L_h+1)}_{ISI \space from \space the \space previous \space OFDM \space symbol}
+    y(0)=h(0)x(0)+\underbrace{h(1)\tilde{x}(M-1)\space+\space .\space .\space .\space.\space\space+\space h(L_h-1)\tilde{x}(M-L_h+1)}_{ISI \space from \space the \space previous \space OFDM \space symbol}
 ```
 
 
 ```math
-    y(1)=h(0)x(1)+h(1)x(0)+\underbrace{h(2)\tilde{x}(N-1)\space+\space .\space .\space .\space.\space\space+\space h(L_h-1)\tilde{x}(N-L_h+2)}_{ISI \space from \space the \space previous \space OFDM \space symbol}
+    y(1)=h(0)x(1)+h(1)x(0)+\underbrace{h(2)\tilde{x}(M-1)\space+\space .\space .\space .\space.\space\space+\space h(L_h-1)\tilde{x}(M-L_h+2)}_{ISI \space from \space the \space previous \space OFDM \space symbol}
 ```
 
 
@@ -57,7 +57,7 @@ Let us now consider a modified transmission scheme as follows. To each transmitt
 
 
 ```math
-    \underbrace{\tilde{x}(0) , \tilde{x}(1) , \space.\space .\space . \space, \tilde{x}(N − 1}_{Previous \space block} \space, \space \underbrace{x (N-L_c) , x (N-L_c+1) , \space.\space .\space .\space , x (N − 1)}_{Cyclic \space prefix} \space, \space \underbrace{x (0) , x (1) , \space.\space .\space .\space , x (N − 1)}_{Current \space block}
+    \underbrace{\tilde{x}(0) , \tilde{x}(1) , \space.\space .\space . \space, \tilde{x}(M − 1}_{Previous \space block} \space, \space \underbrace{x (M-L_c) , x (M-L_c+1) , \space.\space .\space .\space , x (M − 1)}_{Cyclic \space prefix} \space, \space \underbrace{x (0) , x (1) , \space.\space .\space .\space , x (M − 1)}_{Current \space block}
 ```
 
 
@@ -65,21 +65,21 @@ Consider now the received symbol corresponding to $x (0)$. This is given as
 
 
 ```math
-    y(0)=h(0)x(0)+\underbrace{h(1)x(N-1)\space+\space .\space .\space .\space.\space\space+\space h(L_h-1)x(N-L_h+1)}_{ISI \space from \space the \space same \space OFDM \space symbol}
+    y(0)=h(0)x(0)+\underbrace{h(1)x(M-1)\space+\space .\space .\space .\space.\space\space+\space h(L_h-1)x(M-L_h+1)}_{ISI \space from \space the \space same \space OFDM \space symbol}
 ```
 
 
-The inter-symbol interference can be seen to now be from $x (N − 1) , x (N − 2) , . . . , x (N − L + 1)$, if $L_c ≥ L − 1$. Thus, with the cyclic prefix of appropriate length, i.e., $L_c ≥ L − 1$, inter-OFDM symbol interference can be avoided and inter-symbol interference is restricted to samples from the same OFDM symbol. Therefore, the samples $y (0) , y (1) , . . . , y (N − 1)$ are given as
+The inter-symbol interference can be seen to now be from $x (M − 1) , x (M − 2) , . . . , x (M − L + 1)$, if $L_c ≥ L − 1$. Thus, with the cyclic prefix of appropriate length, i.e., $L_c ≥ L − 1$, inter-OFDM symbol interference can be avoided and inter-symbol interference is restricted to samples from the same OFDM symbol. Therefore, the samples $y (0) , y (1) , . . . , y (M − 1)$ are given as
 
 
 
 ```math
-    y (0) = h (0) x (0) \space+ \space h (1) x (N − 1) \space+ \space .\space . \space . \space+ \space h (L − 1) x (N − L + 1)   
+    y (0) = h (0) x (0) \space+ \space h (1) x (M − 1) \space+ \space .\space . \space . \space+ \space h (L − 1) x (M − L + 1)   
 ```
 
 
 ```math
-    y (1) = h (0) x (1) \space + \space h (1) x (0) \space+ \space \space .\space . \space . \space+ \space h (L − 1) x (N − L + 2)
+    y (1) = h (0) x (1) \space + \space h (1) x (0) \space+ \space \space .\space . \space . \space+ \space h (L − 1) x (M − L + 2)
 ```
 
 
@@ -89,7 +89,7 @@ The inter-symbol interference can be seen to now be from $x (N − 1) , x (N −
 
 
 ```math
-    y (N − 1) = h (0) x (N − 1) \space + \space h (1) x (N − 2) \space + \space .\space . \space . \space + \space h (L − 1) x (N − L)
+    y (N − 1) = h (0) x (M − 1) \space + \space h (1) x (M − 2) \space + \space .\space . \space . \space + \space h (L − 1) x (M − L)
 ```
 
 
@@ -98,16 +98,16 @@ It can now be clearly seen that the output $y (n)$ is a circular convolution bet
 
 
 ```math
-    [y (0) \space,\space y (1)  \space,\space . \space . \space .  \space,\space y (N − 1)] = [h (0)  \space,\space h (1)  \space,\space . \space . \space .  \space,\space h (L − 1)  \space,\space 0  \space,\space . \space . \space .  \space,\space 0] \ast_N \space [x (0)  \space,\space
-x (1)  \space,\space . \space . \space .  \space,\space x (N − 1)]
+    [y (0) \space,\space y (1)  \space,\space . \space . \space .  \space,\space y (M − 1)] = [h (0)  \space,\space h (1)  \space,\space . \space . \space .  \space,\space h (L − 1)  \space,\space 0  \space,\space . \space . \space .  \space,\space 0] \ast_N \space [x (0)  \space,\space
+x (1)  \space,\space . \space . \space .  \space,\space x (M − 1)]
 ```
 
 
-where $\ast_N$ denotes circular convolution of modulo $N$. Therefore, the output $y$ can be written as-
+where $\ast_M$ denotes circular convolution of modulo $N$. Therefore, the output $y$ can be written as-
 
 
 ```math
-    y = h \ast_N x
+    y = h \ast_M x
 ```
 
 
@@ -115,11 +115,11 @@ Therefore, taking the FFT of $y (n)$ at the output, we have
 
 
 ```math
-    Y (k) = H (k) \space X (k) \space \space \space , \space \space \space 0 ≤ k ≤ N − 1
+    Y (k) = H (k) \space X (k) \space \space \space , \space \space \space 0 ≤ k ≤ M − 1
 ```
 
 
-Thus, the frequency-selective fading channel is converted into a group of narrowband flat-fading channels, one channel across each subcarrier. Observe that if a single carrier system was used, and the symbols $X (0) \space , \space X (1) \space , \space . \space . \space . \space , \space X (N − 1)$ were transmitted directly then the received symbol $y (n)$ would be given as
+Thus, the frequency-selective fading channel is converted into a group of narrowband flat-fading channels, one channel across each subcarrier. Observe that if a single carrier system was used, and the symbols $X (0) \space , \space X (1) \space , \space . \space . \space . \space , \space X (M − 1)$ were transmitted directly then the received symbol $y (n)$ would be given as
 
 
 
@@ -190,7 +190,7 @@ Also, one can employ the MMSE detector as
 
 
 ```math
-    \hat{X}-{MMSE}(k) = \frac{H^{\ast}(k)}{|H(k)|^2  + \sigma^{2}_{\eta}}Y(k) 
+    \hat{X}_{MMSE}(k) = \frac{H^{\ast}(k)}{|H(k)|^2  + \sigma^{2}_{\eta}}Y(k) 
 ```
 
 
