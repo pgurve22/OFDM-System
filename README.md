@@ -72,6 +72,57 @@ Consider now the received symbol corresponding to $x (0)$. This is given as
 The inter-symbol interference can be seen to now be from $x (N − 1) , x (N − 2) , . . . , x (N − L + 1)$, if $L_c ≥ L − 1$. Thus, with the cyclic prefix of appropriate length, i.e., $L_c ≥ L − 1$, inter-OFDM symbol interference can be avoided and inter-symbol interference is restricted to samples from the same OFDM symbol. Therefore, the samples $y (0) , y (1) , . . . , y (N − 1)$ are given as
 
 
+
+```math
+    y (0) = h (0) x (0) \space+ \space h (1) x (N − 1) \space+ \space .\space . \space . \space+ \space h (L − 1) x (N − L + 1)   
+```
+
+
+```math
+    y (1) = h (0) x (1) \space + \space h (1) x (0) \space+ \space \space .\space . \space . \space+ \space h (L − 1) x (N − L + 2)
+```
+
+
+```math
+                            . \space . \space . \space . \space .
+```
+
+
+```math
+    y (N − 1) = h (0) x (N − 1) \space + \space h (1) x (N − 2) \space + \space .\space . \space . \space + \space h (L − 1) x (N − L)
+```
+
+
+It can now be clearly seen that the output $y (n)$ is a circular convolution between the channel filter $h (n)$ and the input $x (n)$.
+
+
+
+```math
+    [y (0) \space,\space y (1)  \space,\space . \space . \space .  \space,\space y (N − 1)] = [h (0)  \space,\space h (1)  \space,\space . \space . \space .  \space,\space h (L − 1)  \space,\space 0  \space,\space . \space . \space .  \space,\space 0] \ast_N \space [x (0)  \space,\space
+x (1)  \space,\space . \space . \space .  \space,\space x (N − 1)]
+```
+
+
+where $\ast_N$ denotes circular convolution of modulo $N$. Therefore, the output $y$ can be written as-
+
+
+```math
+    y = h \ast_N x
+```
+
+
+Therefore, taking the FFT of $y (n)$ at the output, we have
+
+
+```math
+    Y (k) = H (k) \space X (k) \space \space \space , \space \space \space 0 ≤ k ≤ N − 1
+```
+
+
+
+
+
+
 ![ofdm_blk](ofdm_blk.png)
 
 
