@@ -335,3 +335,9 @@ Hence, the BER is given by the standard expression for that of a Rayleigh fading
 
 
 ![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA.png)
+
+
+- Simulation : Pedestrian-A Channel 
+
+
+![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA_nNRs.png)
