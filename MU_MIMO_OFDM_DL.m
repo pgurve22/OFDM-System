@@ -2,7 +2,6 @@
 clear all;
 nSubC = 32;  % Total Subcarriers
 nCP = round(nSubC/4); 
-niterations = 100;
 nUEs = 4; %Total Users
 Ns=1;
 Nt = 64; % Total BS Antennas
@@ -10,65 +9,66 @@ No=1;
 var_db = [0,-9.7,-19.2,-22.8,-30]; %Ped-A Channel
 %var_db = [1,1,1,1,1]; %Rayleigh Fading Channel
 var = 10.^(var_db/10);
-L=length(var_db); % Total Channel Taps
-SNR_db = -10:1:30;
-SNR = 10.^(SNR_db/10);
+Ch_taps=length(var_db); % Total Channel Taps
+SNR_db = -20:5:30;SNR = 10.^(SNR_db/10);
+uu_itrns=5;lrg_itrns=5;sml_itrns=5;
 
-% Large Scale Fading>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-beta_values = [0.749, 0.045, 0.246, 0.121, 0.125, 0.142, 0.635, 0.256, 0.673, 0.982, 0.1];
+magic=rng;
+for precoder=1:2
+rng(magic);
+%User Locations>>>>>>>>>>>>
+for uu=1:uu_itrns
+min_dist=30;max_dist=1000;
+USER_location=randperm(max_dist-min_dist+1,nUEs)+min_dist;
 
-dm = zeros(nSubC,Ns,nUEs);
+%Large Scale Fading>>>>>>>>>>>
+for it=1:lrg_itrns
+path_exp=3.8;mu_lognrm=3;sigma_lognrm=10^(1/10);
+mu_nr=log10((mu_lognrm^2)/(sqrt((mu_lognrm^2)+(sigma_lognrm^2))));
+sigma_nr_sq=log10(1+((sigma_lognrm^2)/(mu_lognrm^2)));
+sigma_shadow=10;noise_dbm=-94;sigma_noise=(10^(-94./10))*1e-3;
+median_ch_gain=10^(-3.453);
+beta_dem = USER_location.^path_exp;
+Beta_vec=(median_ch_gain.*(10.^((sqrt(sigma_shadow).*randn(1,nUEs))/10)))./beta_dem;
+beta_values=Beta_vec./sigma_noise;
+beta_save{it,:,precoder}=beta_values;
+Beta=diag(beta_values);
 
-for precoder=1:3
-for it=1:niterations
-    for k=1:nUEs
-        dm(:,:,k)=sqrt(1/2).*((2*randi([0,1],nSubC,Ns)-1)+1j*(2*randi([0,1],nSubC,Ns)-1));
-    end
+for jj=1:sml_itrns
+    hpre=(randn(nUEs,Nt,Ch_taps)+1j.*randn(nUEs,Nt,Ch_taps)).*(reshape(sqrt(1/2),1,1,[]));
+    chnl{it,jj,precoder}=hpre;
+    D=repmat(sqrt(Beta),[1,1,size(hpre,3)]);
+    h=pagemtimes(D,hpre);
+
+    %CFR>>>>>>>>>>>>
+    Hm=fft(h,nSubC,3);
     
-    h = zeros(nUEs,Nt,nSubC);
-    for l=1:length(var_db)
-        h(:,:,l)=sqrt(var(l)/2).*(randn(nUEs,Nt)+1j.*randn(nUEs,Nt));
-    end
-
-    for k=1:nUEs
-        h(k,:,:) = sqrt(beta_values(k)).*(h(k,:,:));
-    end
-
-    % CFR>>>>>>>>>>>>>>>>>>>>>>>>>>
-    for k=1:nUEs
-        for m=1:nSubC
-            Hm(k,:,m)=sum(reshape(h(k,:,:),Nt,nSubC).*exp(-1j*2*pi*(m-1).*((1:nSubC)-1)/(nSubC)),2);        
+    for kk=1:length(SNR_db)
+        [precoder,uu,it,jj,kk]
+        p_users=SNR(kk)/nUEs;
+        %Precoder>>>>>>>>>>>
+        %MRT>>>>>>>>>>>>>>
+        P1=zeros(Nt,nUEs,nSubC);
+        if precoder==1 
+            for m=1:nSubC
+                P1=permute(conj(Hm),[2,1,3]);
+            end
+        %ZF>>>>>>>>>>>>>
+        % elseif precoder==2 
+        %     for m=1:nSubC
+        %         P1(:,:,m)=inv((Hm(:,:,m)')*Hm(:,:,m))*(Hm(:,:,m)');
+        %     end
+        %MMSE>>>>>>>>>>>>
+        elseif precoder==2 
+            for m=1:nSubC
+                P1(:,:,m)=inv((Hm(:,:,m)'*Hm(:,:,m)+(No/SNR(kk))*eye(Nt)))*(Hm(:,:,m)');
+            end
         end
-    end
 
-    noise = (randn(nUEs, nSubC)+1j*randn(nUEs,nSubC));
+        %Normalization>>>>>>>>>
+        normP1=sqrt(sum(abs(P1).^2, 1));
+        P = bsxfun(@rdivide, P1, normP1);
 
-    for jj=1:length(SNR_db)
-    % Precoder>>>>>>>>>>>
-    if precoder==1 % MRT>>>>>>>>>>>>>>
-        for m=1:nSubC
-            P1(:,:,m)=Hm(:,:,m)';
-        end
-    elseif precoder==2 % ZF>>>>>>>>>>>>>
-        for m=1:nSubC
-            ch_zf=Hm(:,:,m).';
-            P1(:,:,m)=pinv(ch_zf)';
-        end
-    elseif precoder==3 % MMSE>>>>>>>>>>>>>
-        for m=1:nSubC
-            ch_mmse=Hm(:,:,m).';
-            P1(:,:,m)=conj(ch_mmse)/(ch_mmse'*conj(ch_mmse)+((nUEs*No)/SNR(jj))*eye(nUEs));
-        end
-    end
-    
-    for k=1:nUEs
-        for m=1:nSubC
-            P(:,k,m) = P1(:,k,m)./(norm(P1(:,k,m))); 
-        end
-    end
-
-    
-        [precoder,it,jj]
         for m_dash=1:nSubC
             for k_dash=1:nUEs
                 
@@ -80,33 +80,34 @@ for it=1:niterations
                 MUI=zeros(1,nUEs);
                 for k=1:nUEs
                     if(k~=k_dash)
-                        MUI(k) = abs(conj(Hm(k_dash,:,m_dash))*P(:,k,m_dash))^2;
+                        MUI(k) = Hm(k_dash,:,m_dash)*P(:,k,m_dash);
                     end
                 end
                 
-                intfpwr2 = sum(MUI);
-                dem_term = intfpwr2;
-                SINR = (SNR(jj)*num_term)/(dem_term*SNR(jj)+1);
+                dem_term =abs(sum(MUI))^2;
+                SINR = (p_users*num_term)/(dem_term*p_users+1);
                 SUM_rate(k_dash) = log2(1+SINR);
             end
             SUM_rate_avr(m_dash)=sum(SUM_rate);
         end
-        SE(it,jj) = sum(SUM_rate_avr)/nSubC;
+        Srate(jj,kk) = sum(SUM_rate_avr)/nSubC;
     end
 end
-
-SE_avr(precoder,:) = sum(SE,1)/niterations;
+SE_avr(it,:) = sum(Srate,1)/sml_itrns;
+end
+SE_uu(uu,:)=sum(SE_avr,1)/lrg_itrns;
+end
+SE(precoder,:)=sum(SE_uu,1)/uu_itrns;
 end
 
-plot(SNR_db,SE_avr(1,:),'LineWidth', 1.8, 'Marker', 'square', 'MarkerSize', 8 , 'MarkerFaceColor','g');
+plot(SNR_db,SE(1,:),'LineWidth', 1.5, 'Marker', 'square', 'MarkerSize', 6 , 'MarkerFaceColor','g');
 hold on;
-plot(SNR_db,SE_avr(2,:),'LineWidth', 1.8, 'Marker', 'square', 'MarkerSize', 8 , 'MarkerFaceColor','b');
-plot(SNR_db,SE_avr(3,:),'LineWidth', 1.8, 'Marker', 'square', 'MarkerSize', 8 , 'MarkerFaceColor','c');
-legend('MRT','ZF','MMSE','Location','northwest');
-xlabel("SNR");
-ylabel("Downlink Sum Rate");
-title("Ped-A Channel");
-%title("Rayleigh Fading Channel");
+plot(SNR_db,SE(2,:),'LineWidth', 1.5, 'Marker', 'square', 'MarkerSize', 6 , 'MarkerFaceColor','c');
+legend('MRT','MMSE','Location','northwest');
+xlabel("Total Transmit Power");
+ylabel("Downlink Sum Rate (bits/s/Hz)");
+%title("Ped-A Channel");
+title("Rayleigh Fading Channel");
 grid on;
 
 
