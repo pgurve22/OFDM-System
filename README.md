@@ -323,6 +323,9 @@ Hence, the BER is given by the standard expression for that of a Rayleigh fading
 ![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_PedA.png)
 
 
+![MU_MIMO_OFDM_SE_DL](Downlink_Sum_Rate_PedA_nNts.png)
+
+
 ## Massive MIMO-OFDM Uplink System
 
 - Simulation : Rayleigh Fading Channel 
@@ -341,3 +344,6 @@ Hence, the BER is given by the standard expression for that of a Rayleigh fading
 
 
 ![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA_nNRs.png)
+
+
+![MU_MIMO_OFDM_SE_UL](Uplink_Sum_Rate_PedA_nNrss.png)
