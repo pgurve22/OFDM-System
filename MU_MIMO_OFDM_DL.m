@@ -14,7 +14,7 @@ SNR_db = -20:5:30;SNR = 10.^(SNR_db/10);
 uu_itrns=5;lrg_itrns=5;sml_itrns=5;
 
 magic=rng;
-for precoder=1:2
+for precoder=1:3
 rng(magic);
 %User Locations>>>>>>>>>>>>
 for uu=1:uu_itrns
@@ -35,7 +35,7 @@ beta_save{it,:,precoder}=beta_values;
 Beta=diag(beta_values);
 
 for jj=1:sml_itrns
-    hpre=(randn(nUEs,Nt,Ch_taps)+1j.*randn(nUEs,Nt,Ch_taps)).*(reshape(sqrt(1/2),1,1,[]));
+    hpre=(randn(nUEs,Nt,Ch_taps)+1j.*randn(nUEs,Nt,Ch_taps)).*(reshape(sqrt(var/2),1,1,[]));
     chnl{it,jj,precoder}=hpre;
     D=repmat(sqrt(Beta),[1,1,size(hpre,3)]);
     h=pagemtimes(D,hpre);
@@ -54,14 +54,14 @@ for jj=1:sml_itrns
                 P1=permute(conj(Hm),[2,1,3]);
             end
         %ZF>>>>>>>>>>>>>
-        % elseif precoder==2 
-        %     for m=1:nSubC
-        %         P1(:,:,m)=inv((Hm(:,:,m)')*Hm(:,:,m))*(Hm(:,:,m)');
-        %     end
-        %MMSE>>>>>>>>>>>>
         elseif precoder==2 
             for m=1:nSubC
-                P1(:,:,m)=inv((Hm(:,:,m)'*Hm(:,:,m)+(No/SNR(kk))*eye(Nt)))*(Hm(:,:,m)');
+                P1(:,:,m)=(Hm(:,:,m)')/(Hm(:,:,m)*(Hm(:,:,m)'));
+            end
+        %MMSE>>>>>>>>>>>>
+        elseif precoder==3
+            for m=1:nSubC
+                P1(:,:,m)=(Hm(:,:,m)')/((Hm(:,:,m)*(Hm(:,:,m)')+(No/SNR(kk))*eye(nUEs)));
             end
         end
 
@@ -103,11 +103,12 @@ end
 plot(SNR_db,SE(1,:),'LineWidth', 1.5, 'Marker', 'square', 'MarkerSize', 6 , 'MarkerFaceColor','g');
 hold on;
 plot(SNR_db,SE(2,:),'LineWidth', 1.5, 'Marker', 'square', 'MarkerSize', 6 , 'MarkerFaceColor','c');
-legend('MRT','MMSE','Location','northwest');
+plot(SNR_db,SE(3,:),'LineWidth', 1.5, 'Marker', 'square', 'MarkerSize', 6 , 'MarkerFaceColor','r');
+legend('MRT','ZF','MMSE','Location','northwest');
 xlabel("Total Transmit Power");
 ylabel("Downlink Sum Rate (bits/s/Hz)");
-%title("Ped-A Channel");
-title("Rayleigh Fading Channel");
+title("Ped-A Channel");
+%title("Rayleigh Fading Channel");
 grid on;
 
 
