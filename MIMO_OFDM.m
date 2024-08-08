@@ -1,5 +1,6 @@
 close all; clear all; rng('shuffle'); 
 SNRdB = [1:5:56];
+%subs
 Nsub = 64;      %number of subcarriers
 Ncp = round(Nsub/10);  %length of CP
 numBlocks = 100;      
